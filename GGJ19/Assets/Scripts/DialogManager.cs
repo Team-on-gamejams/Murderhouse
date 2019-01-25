@@ -7,25 +7,24 @@ public class DialogManager : MonoBehaviour {
 	public Text answerText;
 	public Button[] questionsButton;
 
-	enum Stat : byte {
-		None,
-		Cats,
-		Dogs
-	}
-
 	class DialogQuestion {
-		Stat linkedStat;
+		public StatsHolder.Stat linkedStat;
 		public string[] questions;
 		public List<DialogAnswer> answers;
 
-		public DialogQuestion(Stat linkedStat, string[] questions, List<DialogAnswer> answers) {
+		public DialogQuestion(StatsHolder.Stat linkedStat, string[] questions, List<DialogAnswer> answers) {
 			this.linkedStat = linkedStat;
 			this.questions = questions;
 			this.answers = answers;
 		}
 
-		public string GetAnswerInRange(int num){
-			return answers[0].answer;
+		public string GetAnswerInRange(int num) {
+			List<DialogAnswer> fitted = new List<DialogAnswer>();
+			foreach (var i in answers)
+				if (i.minRange <= num && num <= i.maxRange)
+					fitted.Add(i);
+
+			return fitted[Random.Range(0, fitted.Count)].answer;
 		}
 	}
 
@@ -40,27 +39,30 @@ public class DialogManager : MonoBehaviour {
 		}
 	}
 
+	//Тут всі діалоги.
+	//TODO: загрузка з XML
 	List<DialogQuestion> dialogs = new List<DialogQuestion>() {
 		new DialogQuestion(
-			Stat.Cats, 
-			new string[]{ 
+			StatsHolder.Stat.Cat,
+			new string[]{
 				"Cat1",
 				"Cat2",
 				"Cat3",
 				"Cat4",
 				"Cat5",
-			}, 
+			},
 			new List<DialogAnswer>(){
-				new DialogAnswer(-100,	-50,    "-100, -50"),
-				new DialogAnswer(-49,	-1,     "-49,  -1"),
-				new DialogAnswer(0,		0,		"0"),
-				new DialogAnswer(1,		50,		"1, 50"),
-				new DialogAnswer(51,	100,	"51, 100"),
+				new DialogAnswer(-100,  -50,    "-100, -50"),
+				new DialogAnswer(-49,   -1,     "-49,  -1"),
+				new DialogAnswer(0,     0,      "0"),
+				new DialogAnswer(1,     50,     "1, 50"),
+				new DialogAnswer(51,    100,    "51, 100"),
+				new DialogAnswer(-100,    100,    "-100, 100"),
 			}
 		),
 
 		new DialogQuestion(
-			Stat.Dogs,
+			StatsHolder.Stat.Dog,
 			new string[]{
 				"Dog1",
 				"Dog2",
@@ -74,6 +76,7 @@ public class DialogManager : MonoBehaviour {
 				new DialogAnswer(0,     0,      "0"),
 				new DialogAnswer(1,     50,     "1, 50"),
 				new DialogAnswer(51,    100,    "51, 100"),
+				new DialogAnswer(-100,    100,    "-100, 100"),
 			}
 		),
 
@@ -82,16 +85,28 @@ public class DialogManager : MonoBehaviour {
 	// 0 - вибраний діалог
 	// 1 - вибране питання
 	int[][] choosed;
+	StatsHolder currentStats;
 
-	void Start() {
-		answerText.text = "Hello!";
+	public void StartDialog(StatsHolder statsHolder){
+		currentStats = statsHolder;
+		answerText.text = "Hello!\n";
+		answerText.text += statsHolder.ToString();
 
+		FillQuestions();
+	}
+
+	public void ChooseQuestion(byte question) {
+		answerText.text = dialogs[choosed[question][0]].GetAnswerInRange(currentStats.GetStatValue(dialogs[choosed[question][0]].linkedStat));
+		FillQuestions();
+	}
+
+	void FillQuestions(){
 		choosed = new int[questionsButton.Length][];
 
-		for(int i = 0; i < questionsButton.Length; ++i){
+		for (int i = 0; i < questionsButton.Length; ++i) {
 			choosed[i] = new int[2];
 
-			REPEAT_RANDOM:
+		REPEAT_RANDOM:
 			choosed[i][0] = Random.Range(0, dialogs.Count);
 			choosed[i][1] = Random.Range(0, dialogs[choosed[i][0]].questions.Length);
 			for (int j = 0; j < i; ++j)
@@ -101,15 +116,4 @@ public class DialogManager : MonoBehaviour {
 			questionsButton[i].GetComponentInChildren<Text>().text = dialogs[choosed[i][0]].questions[choosed[i][1]];
 		}
 	}
-
-	void Update() {
-		
-	}
-
-	public void ChooseQuestion(byte question){
-		Debug.Log(choosed[question][0]);
-		Debug.Log(choosed[question][1]);
-		answerText.text = dialogs[choosed[question][0]].GetAnswerInRange(10);
-	}
-
 }
