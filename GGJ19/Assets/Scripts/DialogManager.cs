@@ -90,13 +90,15 @@ public class DialogManager : MonoBehaviour {
 	public void StartDialog(StatsHolder statsHolder){
 		currentStats = statsHolder;
 		answerText.text = "Hello!\n";
-		answerText.text += statsHolder.ToString();
+		answerText.text += currentStats.ToString();
 
 		FillQuestions();
 	}
 
 	public void ChooseQuestion(byte question) {
 		answerText.text = dialogs[choosed[question][0]].GetAnswerInRange(currentStats.GetStatValue(dialogs[choosed[question][0]].linkedStat));
+		answerText.text += currentStats.ToString();
+
 		FillQuestions();
 	}
 
