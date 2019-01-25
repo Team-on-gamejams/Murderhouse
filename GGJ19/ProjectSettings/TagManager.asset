@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DialogManager
   - MyFinishObjct
+  - Hom
   layers:
   - Default
   - TransparentFX
