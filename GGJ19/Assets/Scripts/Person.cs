@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class Person : MonoBehaviour
 {
-    enum Cherectre : float
+    enum Cherectre : byte
     {
         Cat = 0,
         Dog,
@@ -29,7 +28,6 @@ public class Person : MonoBehaviour
         Alcohol
     }
 
-    static Random rnd = new Random();
     List<Cherectre> cherectres = new List<Cherectre>();
 
     private float RemunerationFroDeath { get; set; }
@@ -50,13 +48,13 @@ public class Person : MonoBehaviour
     private void RandomCharactiristics()
     {
         float TempRnd;
-        for (int i = 0; i < Cherectre.Alcohol; i++)
+        for (int i = 0; i < (int)Cherectre.Alcohol; i++)
         {
-            TempRnd = rnd.Next(-100, 100);
-            cherectres.Add(TempRnd);
+            TempRnd = Random.Range(-100, 100);
+            cherectres.Add((Cherectre)TempRnd);
         }
-        ChanceToBecome = rnd.Next(0, 100);
-        RemunerationFroDeath = rnd.Next(0, 100);
+        ChanceToBecome = Random.Range(0, 100);
+        RemunerationFroDeath = Random.Range(0, 100);
     }
 
     private void Move()
