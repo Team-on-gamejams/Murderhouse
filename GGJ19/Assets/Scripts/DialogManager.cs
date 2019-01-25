@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour {
 	public Text answerText;
-	public Text[] questionsText;
+	public Button[] questionsButton;
 
 	enum Stat : byte {
 		None,
@@ -22,6 +22,10 @@ public class DialogManager : MonoBehaviour {
 			this.linkedStat = linkedStat;
 			this.questions = questions;
 			this.answers = answers;
+		}
+
+		public string GetAnswerInRange(int num){
+			return answers[0].answer;
 		}
 	}
 
@@ -75,18 +79,26 @@ public class DialogManager : MonoBehaviour {
 
 	};
 
-	int choosedAnswer;
+	// 0 - вибраний діалог
+	// 1 - вибране питання
+	int[][] choosed;
 
 	void Start() {
-		int[][] choosed = new int[questionsText.Length][];
+		answerText.text = "Hello!";
 
-		for(int i = 0; i < questionsText.Length; ++i){
+		choosed = new int[questionsButton.Length][];
+
+		for(int i = 0; i < questionsButton.Length; ++i){
 			choosed[i] = new int[2];
 
-			int choosedDialog = Random.Range(0, dialogs.Count);
-			int choosedQuestion = Random.Range(0, dialogs[choosedDialog].questions.Length);
+			REPEAT_RANDOM:
+			choosed[i][0] = Random.Range(0, dialogs.Count);
+			choosed[i][1] = Random.Range(0, dialogs[choosed[i][0]].questions.Length);
+			for (int j = 0; j < i; ++j)
+				if (choosed[i][0] == choosed[j][0] && choosed[i][1] == choosed[j][1])
+					goto REPEAT_RANDOM;
 
-			questionsText[i].text = dialogs[choosedDialog].questions[choosedQuestion];
+			questionsButton[i].GetComponentInChildren<Text>().text = dialogs[choosed[i][0]].questions[choosed[i][1]];
 		}
 	}
 
@@ -95,7 +107,9 @@ public class DialogManager : MonoBehaviour {
 	}
 
 	public void ChooseQuestion(byte question){
-
+		Debug.Log(choosed[question][0]);
+		Debug.Log(choosed[question][1]);
+		answerText.text = dialogs[choosed[question][0]].GetAnswerInRange(10);
 	}
 
 }

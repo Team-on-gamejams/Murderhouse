@@ -12,11 +12,6 @@ public class QuestionHandler : MonoBehaviour {
 		text = GetComponent<Text>();
 		dm = GameObject.FindGameObjectWithTag("DialogManager").GetComponent<DialogManager>();
 
-		text.text = "";
-	}
-
-	void OnMouseDown() {
-		dm.ChooseQuestion(questionNum);
-		text.text = "";
+		gameObject.GetComponent<Button>().onClick.AddListener(() => dm.ChooseQuestion(questionNum));
 	}
 }
