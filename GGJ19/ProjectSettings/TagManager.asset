@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - DialogManager
+  - MyFinishObjct
   layers:
   - Default
   - TransparentFX
