@@ -1,17 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
 using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour {
 	class DialogQuestion {
 		public StatsHolder.Stat linkedStat;
-		public string[] questions;
+		public List<string> questions;
 		public List<DialogAnswer> answers;
+
+		public DialogQuestion() {
+			questions = new List<string>();
+			answers = new List<DialogAnswer>();
+		}
 
 		public DialogQuestion(StatsHolder.Stat linkedStat, string[] questions, List<DialogAnswer> answers) {
 			this.linkedStat = linkedStat;
-			this.questions = questions;
+			this.questions = new List<string>();
+			if (questions != null)
+				this.questions.AddRange(questions);
 			this.answers = answers;
 		}
 
@@ -29,6 +37,10 @@ public class DialogManager : MonoBehaviour {
 		public sbyte minRange, maxRange;
 		public string answer;
 
+		public DialogAnswer() {
+
+		}
+
 		public DialogAnswer(sbyte min, sbyte max, string answer) {
 			minRange = min;
 			maxRange = max;
@@ -37,36 +49,8 @@ public class DialogManager : MonoBehaviour {
 	}
 
 	class WelcomeMessages {
-		string[] regularMessages = new string[] {
-			"Hi!",
-			"Welcome!",
-		};
-
-		List<DialogQuestion> specialMessages = new List<DialogQuestion>() {
-			new DialogQuestion(
-				StatsHolder.Stat.Cat,null,
-				new List<DialogAnswer>(){
-					new DialogAnswer(-100,  -50,    "WELCOME Cat -100, -50"),
-					new DialogAnswer(-49,   -1,     "WELCOME Cat -49,  -1"),
-					new DialogAnswer(0,     0,      "WELCOME Cat 0"),
-					new DialogAnswer(1,     50,     "WELCOME Cat 1, 50"),
-					new DialogAnswer(51,    100,    "WELCOME Cat 51, 100"),
-					new DialogAnswer(-100,    100,    "WELCOME Cat -100, 100"),
-				}
-			),
-
-			new DialogQuestion(
-				StatsHolder.Stat.Dog,null,
-				new List<DialogAnswer>(){
-					new DialogAnswer(-100,  -50,    "WELCOME Dog -100, -50"),
-					new DialogAnswer(-49,   -1,     "WELCOME Dog -49,  -1"),
-					new DialogAnswer(0,     0,      "WELCOME Dog 0"),
-					new DialogAnswer(1,     50,     "WELCOME Dog 1, 50"),
-					new DialogAnswer(51,    100,    "WELCOME Dog 51, 100"),
-					new DialogAnswer(-100,    100,    "WELCOME Dog -100, 100"),
-				}
-			),
-		};
+		public List<string> regularMessages = new List<string>();
+		public List<DialogQuestion> specialMessages = new List<DialogQuestion>();
 
 		public string GetMessage(StatsHolder stat) {
 			List<string> possibleAnswers = new List<string>(regularMessages);
@@ -80,36 +64,8 @@ public class DialogManager : MonoBehaviour {
 	}
 
 	class TiredMessages {
-		string[] regularMessages = new string[] {
-			"I am tired!",
-			"I am running out of time!",
-		};
-
-		List<DialogQuestion> specialMessages = new List<DialogQuestion>() {
-			new DialogQuestion(
-				StatsHolder.Stat.Cat,null,
-				new List<DialogAnswer>(){
-					new DialogAnswer(-100,  -50,    "TIRED Cat -100, -50"),
-					new DialogAnswer(-49,   -1,     "TIRED Cat -49,  -1"),
-					new DialogAnswer(0,     0,      "TIRED Cat 0"),
-					new DialogAnswer(1,     50,     "TIRED Cat 1, 50"),
-					new DialogAnswer(51,    100,    "TIRED Cat 51, 100"),
-					new DialogAnswer(-100,    100,  "TIRED Cat -100, 100"),
-				}
-			),
-
-			new DialogQuestion(
-				StatsHolder.Stat.Dog,null,
-				new List<DialogAnswer>(){
-					new DialogAnswer(-100,  -50,    "TIRED Dog -100, -50"),
-					new DialogAnswer(-49,   -1,     "TIRED Dog -49,  -1"),
-					new DialogAnswer(0,     0,      "TIRED Dog 0"),
-					new DialogAnswer(1,     50,     "TIRED Dog 1, 50"),
-					new DialogAnswer(51,    100,    "TIRED Dog 51, 100"),
-					new DialogAnswer(-100,    100,  "TIRED Dog -100, 100"),
-				}
-			),
-		};
+		public List<string> regularMessages = new List<string>();
+		public List<DialogQuestion> specialMessages = new List<DialogQuestion>();
 
 		public string GetMessage(StatsHolder stat) {
 			if (stat.Tired > 0)
@@ -136,55 +92,20 @@ public class DialogManager : MonoBehaviour {
 
 	//Тут всі діалоги.
 	//TODO: загрузка з XML
-	WelcomeMessages welcomeMessages = new WelcomeMessages();
-	TiredMessages tiredMessages = new TiredMessages();
-	List<DialogQuestion> dialogs = new List<DialogQuestion>() {
-		new DialogQuestion(
-			StatsHolder.Stat.Cat,
-			new string[]{
-				"Cat1",
-				"Cat2",
-				"Cat3",
-				"Cat4",
-				"Cat5",
-			},
-			new List<DialogAnswer>(){
-				new DialogAnswer(-100,  -50,    "-100, -50"),
-				new DialogAnswer(-49,   -1,     "-49,  -1"),
-				new DialogAnswer(0,     0,      "0"),
-				new DialogAnswer(1,     50,     "1, 50"),
-				new DialogAnswer(51,    100,    "51, 100"),
-				new DialogAnswer(-100,    100,    "-100, 100"),
-			}
-		),
-
-		new DialogQuestion(
-			StatsHolder.Stat.Dog,
-			new string[]{
-				"Dog1",
-				"Dog2",
-				"Dog3",
-				"Dog4",
-				"Dog5",
-			},
-			new List<DialogAnswer>(){
-				new DialogAnswer(-100,  -50,    "-100, -50"),
-				new DialogAnswer(-49,   -1,     "-49,  -1"),
-				new DialogAnswer(0,     0,      "0"),
-				new DialogAnswer(1,     50,     "1, 50"),
-				new DialogAnswer(51,    100,    "51, 100"),
-				new DialogAnswer(-100,    100,    "-100, 100"),
-			}
-		),
-
-	};
+	WelcomeMessages welcomeMessages;
+	TiredMessages tiredMessages;
+	List<DialogQuestion> dialogs;
 
 	// 0 - вибраний діалог
 	// 1 - вибране питання
 	int[][] choosed;
 	StatsHolder currentStats;
+	DialogInitializer currentDI;
+	bool dialogAwaliable;
 
 	void Start() {
+		dialogAwaliable = false;
+
 		choosed = new int[questionsButton.Length][];
 		for (int i = 0; i < questionsButton.Length; ++i)
 			choosed[i] = new int[2];
@@ -200,10 +121,114 @@ public class DialogManager : MonoBehaviour {
 				InterruptedByUser.Invoke();
 			EndDialog();
 		});
+
+		LoadDialoges("ua");
 	}
 
-	public void StartDialog(StatsHolder statsHolder) {
-		currentStats = statsHolder;
+	public void LoadDialoges(string lang) {
+		dialogs = new List<DialogQuestion>();
+		welcomeMessages = new WelcomeMessages();
+		tiredMessages = new TiredMessages();
+
+		//Dialogs
+		TextAsset textAsset = (TextAsset)Resources.Load("dialogs_" + lang);
+		XmlDocument xmldoc = new XmlDocument();
+		xmldoc.LoadXml(textAsset.text);
+
+		foreach (XmlNode rep in xmldoc.ChildNodes[0].ChildNodes) {
+			DialogQuestion diag = new DialogQuestion();
+
+			foreach (XmlNode i in rep.ChildNodes) {
+				if (i.Name == "stat") {
+					diag.linkedStat = (StatsHolder.Stat)System.Enum.Parse(typeof(StatsHolder.Stat), i.InnerText);
+				}
+				else if (i.Name == "question") {
+					diag.questions.Add(i.InnerText);
+				}
+				else if (i.Name == "answer") {
+					DialogAnswer da = new DialogAnswer();
+					da.answer = i.InnerText;
+					foreach (XmlAttribute attr in i.Attributes) {
+						if (attr.Name == "min")
+							da.minRange = sbyte.Parse(attr.Value);
+						else if (attr.Name == "max")
+							da.maxRange = sbyte.Parse(attr.Value);
+					}
+					diag.answers.Add(da);
+				}
+			}
+
+			dialogs.Add(diag);
+		}
+
+		//Dialogs welcome
+		textAsset = (TextAsset)Resources.Load("welcomedialogs_" + lang);
+		xmldoc = new XmlDocument();
+		xmldoc.LoadXml(textAsset.text);
+
+		foreach (XmlNode i in xmldoc.ChildNodes[0].ChildNodes) {
+			print(i.Name);
+			if (i.Name == "regular") {
+				welcomeMessages.regularMessages.Add(i.InnerText);
+			}
+			else if(i.Name != "#text"){
+				DialogQuestion dq = new DialogQuestion();
+				dq.linkedStat = (StatsHolder.Stat)System.Enum.Parse(typeof(StatsHolder.Stat), i.Name, true);
+
+				foreach (XmlNode spec in i.ChildNodes) {
+					DialogAnswer da = new DialogAnswer();
+					da.answer = spec.InnerText;
+					foreach (XmlAttribute attr in spec.Attributes) {
+						print(attr.Name);
+						if (attr.Name == "min")
+							da.minRange = sbyte.Parse(attr.Value);
+						else if (attr.Name == "max")
+							da.maxRange = sbyte.Parse(attr.Value);
+					}
+					dq.answers.Add(da);
+				}
+
+				welcomeMessages.specialMessages.Add(dq);
+			}
+		}
+
+		//Dialogs tired
+		textAsset = (TextAsset)Resources.Load("tireddialogs_" + lang);
+		xmldoc = new XmlDocument();
+		xmldoc.LoadXml(textAsset.text);
+
+		foreach (XmlNode i in xmldoc.ChildNodes[0].ChildNodes) {
+			print(i.Name);
+			if (i.Name == "regular") {
+				tiredMessages.regularMessages.Add(i.InnerText);
+			}
+			else if (i.Name != "#text") {
+				DialogQuestion dq = new DialogQuestion();
+				dq.linkedStat = (StatsHolder.Stat)System.Enum.Parse(typeof(StatsHolder.Stat), i.Name, true);
+
+				foreach (XmlNode spec in i.ChildNodes) {
+					DialogAnswer da = new DialogAnswer();
+					da.answer = spec.InnerText;
+					foreach (XmlAttribute attr in spec.Attributes) {
+						print(attr.Name);
+						if (attr.Name == "min")
+							da.minRange = sbyte.Parse(attr.Value);
+						else if (attr.Name == "max")
+							da.maxRange = sbyte.Parse(attr.Value);
+					}
+					dq.answers.Add(da);
+				}
+
+				tiredMessages.specialMessages.Add(dq);
+			}
+		}
+	}
+
+	public void StartDialog(GameObject person) {
+		dialogAwaliable = true;
+
+		currentStats = person.GetComponent<StatsHolder>();
+		currentDI = person.GetComponent<DialogInitializer>();
 		answerText.text = welcomeMessages.GetMessage(currentStats) + '\n';
 
 		//DEBUG:
@@ -213,6 +238,9 @@ public class DialogManager : MonoBehaviour {
 	}
 
 	public void ChooseQuestion(byte question) {
+		if (!dialogAwaliable)
+			return;
+
 		answerText.text = dialogs[choosed[question][0]].GetAnswerInRange(currentStats.GetStatValue(dialogs[choosed[question][0]].linkedStat)) + '\n';
 		currentStats.GiveAnswer();
 
@@ -234,7 +262,7 @@ public class DialogManager : MonoBehaviour {
 		for (int i = 0; i < questionsButton.Length; ++i) {
 		REPEAT_RANDOM:
 			choosed[i][0] = Random.Range(0, dialogs.Count);
-			choosed[i][1] = Random.Range(0, dialogs[choosed[i][0]].questions.Length);
+			choosed[i][1] = Random.Range(0, dialogs[choosed[i][0]].questions.Count);
 			for (int j = 0; j < i; ++j)
 				if (choosed[i][0] == choosed[j][0] && choosed[i][1] == choosed[j][1])
 					goto REPEAT_RANDOM;
@@ -244,6 +272,10 @@ public class DialogManager : MonoBehaviour {
 	}
 
 	void EndDialog() {
+		dialogAwaliable = false;
+		currentDI.EndDialog();
+
+		answerText.text = "dialog ended";
 		for (int i = 0; i < questionsButton.Length; ++i)
 			questionsButton[i].GetComponentInChildren<Text>().text = "Exit";
 	}
