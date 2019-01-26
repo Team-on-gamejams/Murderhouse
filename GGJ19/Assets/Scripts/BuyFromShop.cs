@@ -15,10 +15,7 @@ public class BuyFromShop : MonoBehaviour
 
     public void BuyObject ()
 	{
-		Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance); // переменной записываються координаты мыши по иксу и игрику
-		Vector3 objPosition = Camera.main.ScreenToWorldPoint(mousePosition); // переменной - объекту присваиваеться переменная с координатами мыши
-
-		Instantiate(gameObjectPrefab, objPosition, new Quaternion(0f, 0f, 0f, 0f));
+		Instantiate(gameObjectPrefab, new Vector3(1f,1f,1f), new Quaternion(0f, 0f, 0f, 0f));
 
 		grabSystem.gm = this.gameObjectPrefab;
 		grabSystem.pressed = true;

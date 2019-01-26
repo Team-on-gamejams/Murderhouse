@@ -25,7 +25,7 @@ public class Move3D : MonoBehaviour
 			if (Input.GetMouseButton(0)) // if we press left mouse button
 			{
 				pressed = true;
-				if (hit.collider.CompareTag("furniture")) { // if hit objects == furniture
+				if (hit.collider.CompareTag("furniture") && gm == null) { // if hit objects == furniture
 
 					gm = hit.collider.gameObject; // save grab objects
 				
