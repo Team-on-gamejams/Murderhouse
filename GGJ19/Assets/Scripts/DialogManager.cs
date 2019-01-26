@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour {
 	class DialogQuestion {
+		static public List<DialogAnswer> answersForAll = new List<DialogAnswer>();
+
 		public StatsHolder.Stat linkedStat;
 		public List<string> questions;
 		public List<DialogAnswer> answers;
@@ -26,6 +28,9 @@ public class DialogManager : MonoBehaviour {
 		public string GetAnswerInRange(int num) {
 			List<DialogAnswer> fitted = new List<DialogAnswer>();
 			foreach (var i in answers)
+				if (i.minRange <= num && num <= i.maxRange)
+					fitted.Add(i);
+			foreach (var i in answersForAll)
 				if (i.minRange <= num && num <= i.maxRange)
 					fitted.Add(i);
 
@@ -82,11 +87,16 @@ public class DialogManager : MonoBehaviour {
 	}
 
 	public GameObject dialogWindow;
+	AlphaCanvasControll dialogWindowAlpha;
 	public Text answerText;
 	public Text statInfoText;
 	public Button[] questionsButton;
 	public Button inviteButton;
 	public Button exitButton;
+
+	//Перший заведений діалог це завжди обучалка.
+	bool isFirstDialog;
+	int firstDialogStage;
 
 	WelcomeMessages welcomeMessages;
 	TiredMessages tiredMessages;
@@ -100,8 +110,10 @@ public class DialogManager : MonoBehaviour {
 	bool dialogAwaliable;
 
 	void Start() {
-		dialogWindow.SetActive(false);
+		dialogWindowAlpha = dialogWindow.GetComponent<AlphaCanvasControll>();
 		dialogAwaliable = false;
+		isFirstDialog = true;
+		firstDialogStage = 1;
 
 		choosed = new int[questionsButton.Length][];
 		for (int i = 0; i < questionsButton.Length; ++i)
@@ -114,12 +126,39 @@ public class DialogManager : MonoBehaviour {
 		});
 
 		exitButton.onClick.AddListener(() => {
-			EndDialog();
+			if (!isFirstDialog)
+				EndDialog();
 		});
 
 		LoadDialoges("ua");
 
 		foreach (var d in dialogs) {
+			string str = "DIALOG---------------\n";
+			str += "Stat: " + d.linkedStat + "\n";
+			foreach (var q in d.questions) {
+				str += "q: " + q + "\n";
+			}
+			foreach (var a in d.answers) {
+				str += "a: " + a.minRange.ToString() + ".." + a.maxRange.ToString() + " " + a.answer + "\n";
+			}
+			str += "----------------------DIALOG";
+			print(str);
+		}
+
+		foreach (var d in tiredMessages.specialMessages) {
+			string str = "DIALOG---------------\n";
+			str += "Stat: " + d.linkedStat + "\n";
+			foreach (var q in d.questions) {
+				str += "q: " + q + "\n";
+			}
+			foreach (var a in d.answers) {
+				str += "a: " + a.minRange.ToString() + ".." + a.maxRange.ToString() + " " + a.answer + "\n";
+			}
+			str += "----------------------DIALOG";
+			print(str);
+		}
+
+		foreach (var d in welcomeMessages.specialMessages) {
 			string str = "DIALOG---------------\n";
 			str += "Stat: " + d.linkedStat + "\n";
 			foreach (var q in d.questions) {
@@ -139,6 +178,7 @@ public class DialogManager : MonoBehaviour {
 		tiredMessages = new TiredMessages();
 
 		//Dialogs
+		bool staticAnswers = false;
 		TextAsset textAsset = (TextAsset)Resources.Load("dialogs_" + lang);
 		XmlDocument xmldoc = new XmlDocument();
 		xmldoc.LoadXml(textAsset.text);
@@ -148,7 +188,13 @@ public class DialogManager : MonoBehaviour {
 
 			foreach (XmlNode i in rep.ChildNodes) {
 				if (i.Name == "stat") {
-					diag.linkedStat = (StatsHolder.Stat)System.Enum.Parse(typeof(StatsHolder.Stat), i.InnerText);
+					if (i.InnerText == "None") {
+						staticAnswers = true;
+					}
+					else {
+						diag.linkedStat = (StatsHolder.Stat)System.Enum.Parse(typeof(StatsHolder.Stat), i.InnerText);
+						staticAnswers = false;
+					}
 				}
 				else if (i.Name == "question") {
 					diag.questions.Add(i.InnerText);
@@ -165,8 +211,12 @@ public class DialogManager : MonoBehaviour {
 					diag.answers.Add(da);
 				}
 			}
-
-			dialogs.Add(diag);
+			if (staticAnswers) {
+				foreach (var an in diag.answers)
+					DialogQuestion.answersForAll.Add(an);
+			}
+			else
+				dialogs.Add(diag);
 		}
 
 		//Dialogs welcome
@@ -229,34 +279,53 @@ public class DialogManager : MonoBehaviour {
 	}
 
 	public void StartDialog(GameObject person) {
-		dialogWindow.SetActive(true);
+		dialogWindowAlpha.Show();
 		dialogAwaliable = true;
 
 		currentStats = person.GetComponent<StatsHolder>();
 		currentDI = person.GetComponent<DialogInitializer>();
-		answerText.text = welcomeMessages.GetMessage(currentStats) + '\n';
 
 		statInfoText.text = currentStats.ToString() + '\n';
 
-		FillQuestions();
+		if (!isFirstDialog) {
+			answerText.text = welcomeMessages.GetMessage(currentStats) + '\n';
+			FillQuestions();
+		}
+		else {
+			FillFirstDialog();
+		}
 	}
 
 	public void ChooseQuestion(byte question) {
 		if (!dialogAwaliable)
 			return;
 
-		answerText.text = dialogs[choosed[question][0]].GetAnswerInRange(currentStats.GetStatValue(dialogs[choosed[question][0]].linkedStat)) + '\n';
-		currentStats.GiveAnswer();
+		if (!isFirstDialog) {
+			answerText.text = dialogs[choosed[question][0]].GetAnswerInRange(currentStats.GetStatValue(dialogs[choosed[question][0]].linkedStat)) + '\n';
+			currentStats.GiveAnswer();
+			answerText.text += tiredMessages.GetMessage(currentStats) + '\n';
 
-		if (currentStats.Tired > 0)
-			FillQuestions();
-		else {
-			EndDialog();
+			if (currentStats.Tired > 0)
+				FillQuestions();
+			else
+				EndDialog();
+		}
+		else{
+			FillFirstDialog();
 		}
 
-		answerText.text += tiredMessages.GetMessage(currentStats) + '\n';
-
 		statInfoText.text = currentStats.ToString() + '\n';
+	}
+
+	void EndDialog() {
+		dialogWindowAlpha.Hide();
+		dialogAwaliable = false;
+		isFirstDialog = false;
+		currentDI.EndDialog();
+
+		answerText.text = "dialog ended";
+		for (int i = 0; i < questionsButton.Length; ++i)
+			questionsButton[i].GetComponentInChildren<Text>().text = "Exit";
 	}
 
 	void FillQuestions() {
@@ -272,13 +341,30 @@ public class DialogManager : MonoBehaviour {
 		}
 	}
 
-	void EndDialog() {
-		dialogWindow.SetActive(false);
-		dialogAwaliable = false;
-		currentDI.EndDialog();
-
-		answerText.text = "dialog ended";
-		for (int i = 0; i < questionsButton.Length; ++i)
-			questionsButton[i].GetComponentInChildren<Text>().text = "Exit";
+	void FillFirstDialog() {
+		switch(firstDialogStage){
+			case 0:
+				answerText.text = "Welcome! [Розказує хто ти].";
+				foreach (var bq in questionsButton)
+					bq.GetComponentInChildren<Text>().text = "Ок.";
+				currentStats.Stats[0] = 100;
+				break;
+			case 1:
+				answerText.text = "[Розказує що тобі треба робити].";
+				foreach (var bq in questionsButton)
+					bq.GetComponentInChildren<Text>().text = "Ок.";
+				break;
+			case 2:
+				answerText.text = "[Пропонує поставити тобі щось для " + ((StatsHolder.Stat)(0)).ToString() + "].";
+				foreach (var bq in questionsButton)
+					bq.GetComponentInChildren<Text>().text = "Ок. Я поставив";
+				break;
+			default:
+				answerText.text = "[Пропонує запросити його].";
+				foreach (var bq in questionsButton)
+					bq.GetComponentInChildren<Text>().text = "Це не запросити.";
+				break;
+		}
+		++firstDialogStage;
 	}
 }

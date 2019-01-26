@@ -8,7 +8,37 @@
 		<answer min="-100" max="-50">Big NO.</answer>
 		<answer min="-100" max="-50">No, no, no and no.</answer>
 
+		<answer min="-49" max="-1">Nah.</answer>
+		<answer min="-49" max="-1">Nope.</answer>
+		<answer min="-49" max="-1">Not really.</answer>
+		<answer min="-49" max="-1">No?</answer>
+		<answer min="-49" max="-1">*shakes head*.</answer>
+		<answer min="-49" max="-1">More no than yes.</answer>
+
+		<answer min="0" max="0">Dont care.</answer>
+		<answer min="0" max="0">No difference.</answer>
+		<answer min="0" max="0">Whatever.</answer>
+		<answer min="0" max="0">Dont know.</answer>
 		<answer min="0" max="0">Мені все равно</answer>
+
+		<answer min="1" max="50">I think...?</answer>
+		<answer min="1" max="50">Maybe?</answer>
+		<answer min="1" max="50">Probably?</answer>
+		<answer min="1" max="50">Yes...?</answer>
+		<answer min="1" max="49">More yes than no.</answer>
+
+		<answer min="51" max="100">Yeah.</answer>
+		<answer min="51" max="100">Yes.</answer>
+		<answer min="51" max="100">Sure.</answer>
+		<answer min="51" max="100">Yep.</answer>
+		<answer min="51" max="100">*nods*</answer>
+		<answer min="51" max="100">Deffinitly yes!</answer>
+
+		<answer min="100" max="100">Of cource!</answer>
+		<answer min="100" max="100">Never doubt it.</answer>
+		<answer min="100" max="100">Yeah!</answer>
+		<answer min="100" max="100">Strong yes.</answer>
+		<answer min="100" max="100">Of cource!</answer>
 
 		<answer min="-100" max="100">Зачем ти це питаєш?</answer>
 	</rep>
