@@ -11,9 +11,10 @@ public class DialogInitializer : MonoBehaviour {
 	public List<UnityEvent> inviteHome = new List<UnityEvent>();
 
 	bool wasInDIalog;
+	bool wasInvited;
 
 	void Start() {
-		wasInDIalog = false;
+		wasInvited = wasInDIalog = false;
 	}
 
 	void OnMouseDown() {
@@ -40,6 +41,10 @@ public class DialogInitializer : MonoBehaviour {
 	}
 
 	public void InviteToHome(){
+		if (wasInvited)
+			return;
+		wasInvited = true;
+
 		foreach (var ev in inviteHome)
 			ev.Invoke();
 	}

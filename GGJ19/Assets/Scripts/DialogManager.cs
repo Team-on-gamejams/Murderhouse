@@ -86,10 +86,6 @@ public class DialogManager : MonoBehaviour {
 	public Button inviteButton;
 	public Button exitButton;
 
-	public event System.Action InterruptedByUser;
-	public event System.Action InviteHuman;
-	public event System.Action TiredHuman;
-
 	//Тут всі діалоги.
 	//TODO: загрузка з XML
 	WelcomeMessages welcomeMessages;
@@ -111,14 +107,12 @@ public class DialogManager : MonoBehaviour {
 			choosed[i] = new int[2];
 
 		inviteButton.onClick.AddListener(() => {
-			if (InviteHuman != null)
-				InviteHuman.Invoke();
+			//TODO: Перевірити чи хоче він зайти
 			EndDialog();
+			currentDI.InviteToHome();
 		});
 
 		exitButton.onClick.AddListener(() => {
-			if (InterruptedByUser != null)
-				InterruptedByUser.Invoke();
 			EndDialog();
 		});
 
@@ -171,7 +165,7 @@ public class DialogManager : MonoBehaviour {
 			if (i.Name == "regular") {
 				welcomeMessages.regularMessages.Add(i.InnerText);
 			}
-			else if(i.Name != "#text"){
+			else if (i.Name != "#text") {
 				DialogQuestion dq = new DialogQuestion();
 				dq.linkedStat = (StatsHolder.Stat)System.Enum.Parse(typeof(StatsHolder.Stat), i.Name, true);
 
@@ -245,8 +239,6 @@ public class DialogManager : MonoBehaviour {
 		if (currentStats.Tired > 0)
 			FillQuestions();
 		else {
-			if (TiredHuman != null)
-				TiredHuman.Invoke();
 			EndDialog();
 		}
 
