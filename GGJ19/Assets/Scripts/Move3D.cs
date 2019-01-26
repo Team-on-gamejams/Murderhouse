@@ -20,13 +20,15 @@ public class Move3D : MonoBehaviour
 
 
 		
-		if (Physics.Raycast(ray, out hit)) {			
+		if (Physics.Raycast(ray, out hit)) 
+		{			
 			if (Input.GetMouseButton(0)) // if we press left mouse button
 			{
-				pressed = true; 
+				pressed = true;
 				if (hit.collider.CompareTag("furniture")) { // if hit objects == furniture
 
 					gm = hit.collider.gameObject; // save grab objects
+				
 					gm.layer = 2; // make grab objects non - raycast
 				}
 			} else {
@@ -37,6 +39,7 @@ public class Move3D : MonoBehaviour
 					gm = null; // clear gm
 				}
 			} 
+
 			if (gm != null && !hit.collider.CompareTag("furniture") && pressed)
 			{
 				gm.transform.position = hit.point; // move grab objects
