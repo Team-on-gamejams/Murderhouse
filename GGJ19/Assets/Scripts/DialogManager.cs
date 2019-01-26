@@ -86,10 +86,6 @@ public class DialogManager : MonoBehaviour {
 	public Button inviteButton;
 	public Button exitButton;
 
-	public event System.Action InterruptedByUser;
-	public event System.Action InviteHuman;
-	public event System.Action TiredHuman;
-
 	//Тут всі діалоги.
 	//TODO: загрузка з XML
 	WelcomeMessages welcomeMessages;
@@ -111,18 +107,29 @@ public class DialogManager : MonoBehaviour {
 			choosed[i] = new int[2];
 
 		inviteButton.onClick.AddListener(() => {
-			if (InviteHuman != null)
-				InviteHuman.Invoke();
+			//TODO: Перевірити чи хоче він зайти
 			EndDialog();
+			currentDI.InviteToHome();
 		});
 
 		exitButton.onClick.AddListener(() => {
-			if (InterruptedByUser != null)
-				InterruptedByUser.Invoke();
 			EndDialog();
 		});
 
 		LoadDialoges("ua");
+
+		foreach (var d in dialogs) {
+			string str = "DIALOG---------------\n";
+			str += "Stat: " + d.linkedStat + "\n";
+			foreach (var q in d.questions) {
+				str += "q: " + q + "\n";
+			}
+			foreach (var a in d.answers) {
+				str += "a: " + a.minRange.ToString() + ".." + a.maxRange.ToString() + " " + a.answer + "\n";
+			}
+			str += "----------------------DIALOG";
+			print(str);
+		}
 	}
 
 	public void LoadDialoges(string lang) {
@@ -167,11 +174,10 @@ public class DialogManager : MonoBehaviour {
 		xmldoc.LoadXml(textAsset.text);
 
 		foreach (XmlNode i in xmldoc.ChildNodes[0].ChildNodes) {
-			print(i.Name);
 			if (i.Name == "regular") {
 				welcomeMessages.regularMessages.Add(i.InnerText);
 			}
-			else if(i.Name != "#text"){
+			else if (i.Name != "#text") {
 				DialogQuestion dq = new DialogQuestion();
 				dq.linkedStat = (StatsHolder.Stat)System.Enum.Parse(typeof(StatsHolder.Stat), i.Name, true);
 
@@ -179,7 +185,6 @@ public class DialogManager : MonoBehaviour {
 					DialogAnswer da = new DialogAnswer();
 					da.answer = spec.InnerText;
 					foreach (XmlAttribute attr in spec.Attributes) {
-						print(attr.Name);
 						if (attr.Name == "min")
 							da.minRange = sbyte.Parse(attr.Value);
 						else if (attr.Name == "max")
@@ -198,7 +203,6 @@ public class DialogManager : MonoBehaviour {
 		xmldoc.LoadXml(textAsset.text);
 
 		foreach (XmlNode i in xmldoc.ChildNodes[0].ChildNodes) {
-			print(i.Name);
 			if (i.Name == "regular") {
 				tiredMessages.regularMessages.Add(i.InnerText);
 			}
@@ -210,7 +214,6 @@ public class DialogManager : MonoBehaviour {
 					DialogAnswer da = new DialogAnswer();
 					da.answer = spec.InnerText;
 					foreach (XmlAttribute attr in spec.Attributes) {
-						print(attr.Name);
 						if (attr.Name == "min")
 							da.minRange = sbyte.Parse(attr.Value);
 						else if (attr.Name == "max")
@@ -247,8 +250,6 @@ public class DialogManager : MonoBehaviour {
 		if (currentStats.Tired > 0)
 			FillQuestions();
 		else {
-			if (TiredHuman != null)
-				TiredHuman.Invoke();
 			EndDialog();
 		}
 

@@ -8,7 +8,7 @@
 		<spec min="0" max="0">TIRED! cat 0</spec>
 		<spec min="1" max="50">TIRED! cat 1 50</spec>
 		<spec min="51" max="100">TIRED! cat 51 100</spec>
-		<spec min="-100" max="00">TIRED! cat -100 100</spec>
+		<spec min="-100" max="100">TIRED! cat -100 100</spec>
 	</cat>
 
 	<dog>
@@ -17,6 +17,6 @@
 		<spec min="0" max="0">TIRED! dog 0</spec>
 		<spec min="1" max="50">TIRED! dog 1 50</spec>
 		<spec min="51" max="100">TIRED! dog 51 100</spec>
-		<spec min="-100" max="00">TIRED! dog -100 100</spec>
+		<spec min="-100" max="100">TIRED! dog -100 100</spec>
 	</dog>
 </dialogs>
