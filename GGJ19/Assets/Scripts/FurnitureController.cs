@@ -4,8 +4,26 @@ using UnityEngine;
 
 public class FurnitureController : MonoBehaviour
 {
-    public int furnitureCount;
+	public int max;
 
-	List<GameObject> furnitureArr;
+	public List<GameObject> furnitureArr;
 
+	public void AddFurniture(GameObject furniture)
+	{
+		if (furnitureArr.Count >= max)
+			return;
+		else {
+			furnitureArr.Add(furniture);
+		}
+	}
+
+	public bool IsAll()
+	{
+		if (furnitureArr.Count >= max)
+		{
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
