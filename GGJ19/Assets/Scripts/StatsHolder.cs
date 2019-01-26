@@ -35,32 +35,36 @@ public class StatsHolder : MonoBehaviour {
 		LAST_STAT
 	}
 
-	sbyte[] stats;
+	public sbyte[] Stats { get; private set; }
 
-	byte tired;
-	const byte initTired = 10;
+	public sbyte Tired { get; private set; }
+	const sbyte initTired = 5;
 
 	void Start() {
-		tired = initTired;
-		stats = new sbyte[(int)Stat.LAST_STAT];
+		Tired = initTired;
+		Stats = new sbyte[(int)Stat.LAST_STAT];
 
 		for (int i = 0; i < (int)Stat.LAST_STAT; i += 2) {
 			sbyte r = (sbyte)Random.Range(-100, 101);
-			stats[i] = r;
-			stats[i + 1] = (sbyte)-r;
+			Stats[i] = r;
+			Stats[i + 1] = (sbyte)-r;
 		}
 	}
 
+	public void GiveAnswer(){
+		--Tired;
+	}
+
 	public sbyte GetStatValue(Stat stat) {
-		return stats[(int)stat];
+		return Stats[(int)stat];
 	}
 
 	public override string ToString() {
 		string rez = "";
 
 		for (int i = 0; i < (int)Stat.LAST_STAT; ++i)
-			rez += ((Stat)(i)).ToString() + ": " + stats[i] + "\n";
-		rez += "Tired: " + tired.ToString();
+			rez += ((Stat)(i)).ToString() + ": " + Stats[i] + "\n";
+		rez += "Tired: " + Tired.ToString();
 
 		return rez;
 	}

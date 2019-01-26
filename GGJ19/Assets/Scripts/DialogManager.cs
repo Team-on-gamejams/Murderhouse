@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour {
-	public Text answerText;
-	public Button[] questionsButton;
-
 	class DialogQuestion {
 		public StatsHolder.Stat linkedStat;
 		public string[] questions;
@@ -39,8 +36,108 @@ public class DialogManager : MonoBehaviour {
 		}
 	}
 
+	class WelcomeMessages {
+		string[] regularMessages = new string[] {
+			"Hi!",
+			"Welcome!",
+		};
+
+		List<DialogQuestion> specialMessages = new List<DialogQuestion>() {
+			new DialogQuestion(
+				StatsHolder.Stat.Cat,null,
+				new List<DialogAnswer>(){
+					new DialogAnswer(-100,  -50,    "WELCOME Cat -100, -50"),
+					new DialogAnswer(-49,   -1,     "WELCOME Cat -49,  -1"),
+					new DialogAnswer(0,     0,      "WELCOME Cat 0"),
+					new DialogAnswer(1,     50,     "WELCOME Cat 1, 50"),
+					new DialogAnswer(51,    100,    "WELCOME Cat 51, 100"),
+					new DialogAnswer(-100,    100,    "WELCOME Cat -100, 100"),
+				}
+			),
+
+			new DialogQuestion(
+				StatsHolder.Stat.Dog,null,
+				new List<DialogAnswer>(){
+					new DialogAnswer(-100,  -50,    "WELCOME Dog -100, -50"),
+					new DialogAnswer(-49,   -1,     "WELCOME Dog -49,  -1"),
+					new DialogAnswer(0,     0,      "WELCOME Dog 0"),
+					new DialogAnswer(1,     50,     "WELCOME Dog 1, 50"),
+					new DialogAnswer(51,    100,    "WELCOME Dog 51, 100"),
+					new DialogAnswer(-100,    100,    "WELCOME Dog -100, 100"),
+				}
+			),
+		};
+
+		public string GetMessage(StatsHolder stat) {
+			List<string> possibleAnswers = new List<string>(regularMessages);
+			foreach (var j in specialMessages)
+				for (int i = 0; i < (int)StatsHolder.Stat.LAST_STAT; ++i)
+					if (i == (int)j.linkedStat)
+						possibleAnswers.Add(j.GetAnswerInRange(stat.GetStatValue(j.linkedStat)));
+
+			return possibleAnswers[Random.Range(0, possibleAnswers.Count)];
+		}
+	}
+
+	class TiredMessages {
+		string[] regularMessages = new string[] {
+			"I am tired!",
+			"I am running out of time!",
+		};
+
+		List<DialogQuestion> specialMessages = new List<DialogQuestion>() {
+			new DialogQuestion(
+				StatsHolder.Stat.Cat,null,
+				new List<DialogAnswer>(){
+					new DialogAnswer(-100,  -50,    "TIRED Cat -100, -50"),
+					new DialogAnswer(-49,   -1,     "TIRED Cat -49,  -1"),
+					new DialogAnswer(0,     0,      "TIRED Cat 0"),
+					new DialogAnswer(1,     50,     "TIRED Cat 1, 50"),
+					new DialogAnswer(51,    100,    "TIRED Cat 51, 100"),
+					new DialogAnswer(-100,    100,  "TIRED Cat -100, 100"),
+				}
+			),
+
+			new DialogQuestion(
+				StatsHolder.Stat.Dog,null,
+				new List<DialogAnswer>(){
+					new DialogAnswer(-100,  -50,    "TIRED Dog -100, -50"),
+					new DialogAnswer(-49,   -1,     "TIRED Dog -49,  -1"),
+					new DialogAnswer(0,     0,      "TIRED Dog 0"),
+					new DialogAnswer(1,     50,     "TIRED Dog 1, 50"),
+					new DialogAnswer(51,    100,    "TIRED Dog 51, 100"),
+					new DialogAnswer(-100,    100,  "TIRED Dog -100, 100"),
+				}
+			),
+		};
+
+		public string GetMessage(StatsHolder stat) {
+			if (stat.Tired > 0)
+				return "";
+
+			List<string> possibleAnswers = new List<string>(regularMessages);
+			foreach (var j in specialMessages)
+				for (int i = 0; i < (int)StatsHolder.Stat.LAST_STAT; ++i)
+					if (i == (int)j.linkedStat)
+						possibleAnswers.Add(j.GetAnswerInRange(stat.GetStatValue(j.linkedStat)));
+
+			return possibleAnswers[Random.Range(0, possibleAnswers.Count)];
+		}
+	}
+
+	public Text answerText;
+	public Button[] questionsButton;
+	public Button inviteButton;
+	public Button exitButton;
+
+	public event System.Action InterruptedByUser;
+	public event System.Action InviteHuman;
+	public event System.Action TiredHuman;
+
 	//Тут всі діалоги.
 	//TODO: загрузка з XML
+	WelcomeMessages welcomeMessages = new WelcomeMessages();
+	TiredMessages tiredMessages = new TiredMessages();
 	List<DialogQuestion> dialogs = new List<DialogQuestion>() {
 		new DialogQuestion(
 			StatsHolder.Stat.Cat,
@@ -87,27 +184,54 @@ public class DialogManager : MonoBehaviour {
 	int[][] choosed;
 	StatsHolder currentStats;
 
-	public void StartDialog(StatsHolder statsHolder){
+	void Start() {
+		choosed = new int[questionsButton.Length][];
+		for (int i = 0; i < questionsButton.Length; ++i)
+			choosed[i] = new int[2];
+
+		inviteButton.onClick.AddListener(() => {
+			if (InviteHuman != null)
+				InviteHuman.Invoke();
+			EndDialog();
+		});
+
+		exitButton.onClick.AddListener(() => {
+			if (InterruptedByUser != null)
+				InterruptedByUser.Invoke();
+			EndDialog();
+		});
+	}
+
+	public void StartDialog(StatsHolder statsHolder) {
 		currentStats = statsHolder;
-		answerText.text = "Hello!\n";
-		answerText.text += currentStats.ToString();
+		answerText.text = welcomeMessages.GetMessage(currentStats) + '\n';
+
+		//DEBUG:
+		answerText.text += currentStats.ToString() + '\n';
 
 		FillQuestions();
 	}
 
 	public void ChooseQuestion(byte question) {
-		answerText.text = dialogs[choosed[question][0]].GetAnswerInRange(currentStats.GetStatValue(dialogs[choosed[question][0]].linkedStat));
-		answerText.text += currentStats.ToString();
+		answerText.text = dialogs[choosed[question][0]].GetAnswerInRange(currentStats.GetStatValue(dialogs[choosed[question][0]].linkedStat)) + '\n';
+		currentStats.GiveAnswer();
 
-		FillQuestions();
+		if (currentStats.Tired > 0)
+			FillQuestions();
+		else {
+			if (TiredHuman != null)
+				TiredHuman.Invoke();
+			EndDialog();
+		}
+
+		answerText.text += tiredMessages.GetMessage(currentStats) + '\n';
+
+		//DEBUG:
+		answerText.text += currentStats.ToString() + '\n';
 	}
 
-	void FillQuestions(){
-		choosed = new int[questionsButton.Length][];
-
+	void FillQuestions() {
 		for (int i = 0; i < questionsButton.Length; ++i) {
-			choosed[i] = new int[2];
-
 		REPEAT_RANDOM:
 			choosed[i][0] = Random.Range(0, dialogs.Count);
 			choosed[i][1] = Random.Range(0, dialogs[choosed[i][0]].questions.Length);
@@ -117,5 +241,10 @@ public class DialogManager : MonoBehaviour {
 
 			questionsButton[i].GetComponentInChildren<Text>().text = dialogs[choosed[i][0]].questions[choosed[i][1]];
 		}
+	}
+
+	void EndDialog() {
+		for (int i = 0; i < questionsButton.Length; ++i)
+			questionsButton[i].GetComponentInChildren<Text>().text = "Exit";
 	}
 }
