@@ -6,11 +6,13 @@ public class ReactMatrixToFurniture : MonoBehaviour {
 	Renderer _rend; // Render component this objects
 	public float alphaValue; // the alpha value
 
-	bool enterOnMatrix; // indicator for trigger
+	public bool enterOnMatrix; // indicator for trigger
 
 	public Move3D dragScript; // Drag script need for define pressed or no
 
 	public float upSpeed; // Speed with which the this block move up or down 
+
+	public bool busy = false;
 
 	private void Start() {
 		_rend = GetComponent<Renderer>();
@@ -36,14 +38,16 @@ public class ReactMatrixToFurniture : MonoBehaviour {
 	}
 
 	private void OnTriggerStay(Collider other) {
-		if (!dragScript.pressed) { // If pressed == false
+		if (!dragScript.pressed && !busy) { // If pressed == false
+			busy = true;
 			other.transform.position = transform.position; // Set furniture on our position
-		}
+		} 
 	}
 
 	void OnTriggerExit(Collider other) {
 		if (enterOnMatrix)
 		{
+			busy = false;
 			enterOnMatrix = false;
 			other.gameObject.transform.Translate(Vector3.down * upSpeed * Time.deltaTime);
 
