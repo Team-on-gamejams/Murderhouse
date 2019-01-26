@@ -9,15 +9,16 @@ public class Move3D : MonoBehaviour
 
 	public Camera _camera;
 
-	private GameObject gm;
-	public float speed = 1f;
-	public bool pressed;
+	public GameObject gm;
+	public bool pressed = false;
+
+	Vector3 mousePos;
 
 	void Start() {
 
 	}
 
-	void FixedUpdate() {
+	void Update() {
 		Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
 		Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
@@ -27,19 +28,16 @@ public class Move3D : MonoBehaviour
 			if (Input.GetMouseButtonDown(0))
 			{
 				if (hit.collider.CompareTag("furniture")) {
-					gm = hit.collider.gameObject;
+					
+					gm.transform.position = hit.point;
 					pressed = !pressed;
-					if (!pressed)
-						gm = null;
 				}
+				
 			}
-		}
-		
-		if (gm != null)
-		{
-			Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
-			Vector3 objPosition = _camera.ScreenToWorldPoint(mousePosition);
-			gm.transform.position = objPosition * speed;
+			if (gm != null && !hit.collider.CompareTag("furniture") && pressed)
+			{
+				gm.transform.position = hit.point;
+			}
 		}
 
 	}
