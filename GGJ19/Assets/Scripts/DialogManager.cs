@@ -68,7 +68,7 @@ public class DialogManager : MonoBehaviour {
 		public List<DialogQuestion> specialMessages = new List<DialogQuestion>();
 
 		public string GetMessage(StatsHolder stat) {
-			if (stat.Tired > 0)
+			if (stat.Tired > 1)
 				return "";
 
 			List<string> possibleAnswers = new List<string>(regularMessages);
@@ -81,13 +81,13 @@ public class DialogManager : MonoBehaviour {
 		}
 	}
 
+	public GameObject dialogWindow;
 	public Text answerText;
+	public Text statInfoText;
 	public Button[] questionsButton;
 	public Button inviteButton;
 	public Button exitButton;
 
-	//Тут всі діалоги.
-	//TODO: загрузка з XML
 	WelcomeMessages welcomeMessages;
 	TiredMessages tiredMessages;
 	List<DialogQuestion> dialogs;
@@ -100,6 +100,7 @@ public class DialogManager : MonoBehaviour {
 	bool dialogAwaliable;
 
 	void Start() {
+		dialogWindow.SetActive(false);
 		dialogAwaliable = false;
 
 		choosed = new int[questionsButton.Length][];
@@ -228,14 +229,14 @@ public class DialogManager : MonoBehaviour {
 	}
 
 	public void StartDialog(GameObject person) {
+		dialogWindow.SetActive(true);
 		dialogAwaliable = true;
 
 		currentStats = person.GetComponent<StatsHolder>();
 		currentDI = person.GetComponent<DialogInitializer>();
 		answerText.text = welcomeMessages.GetMessage(currentStats) + '\n';
 
-		//DEBUG:
-		answerText.text += currentStats.ToString() + '\n';
+		statInfoText.text = currentStats.ToString() + '\n';
 
 		FillQuestions();
 	}
@@ -255,8 +256,7 @@ public class DialogManager : MonoBehaviour {
 
 		answerText.text += tiredMessages.GetMessage(currentStats) + '\n';
 
-		//DEBUG:
-		answerText.text += currentStats.ToString() + '\n';
+		statInfoText.text = currentStats.ToString() + '\n';
 	}
 
 	void FillQuestions() {
@@ -273,6 +273,7 @@ public class DialogManager : MonoBehaviour {
 	}
 
 	void EndDialog() {
+		dialogWindow.SetActive(false);
 		dialogAwaliable = false;
 		currentDI.EndDialog();
 

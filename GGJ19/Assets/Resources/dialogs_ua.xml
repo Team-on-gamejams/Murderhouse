@@ -1,17 +1,15 @@
 <dialogs>
 	<rep>
 		<stat>Cat</stat>
-		<question>Cat1</question>
-		<question>Cat2</question>
-		<question>Cat3</question>
-		<question>Cat4</question>
-		<question>Cat5</question>
-		<answer min="-100" max="-50">-100 100</answer>
-		<answer min="-49" max="-1">-49 -1</answer>
-		<answer min="0" max="0">0</answer>
-		<answer min="1" max="50">1 50</answer>
-		<answer min="51" max="100">51 100</answer>
-		<answer min="-100" max="100">-100 100</answer>
+		<question>Тобі подобаютсья котики?</question>
+		<question>Що ти думаєш про котодевочок?</question>
+
+		<answer min="-100" max="-50">	Повна херня</answer>
+		<answer min="-49" max="-1">		Не настільки добре, як собачки</answer>
+		<answer min="0" max="0">		Мені все равно</answer>
+		<answer min="1" max="50">		Могло бути і гірше</answer>
+		<answer min="51" max="100">		Идеально же!</answer>
+		<answer min="-100" max="100">	Зачем ти це питаєш?</answer>
 	</rep>
 
 	<rep>
