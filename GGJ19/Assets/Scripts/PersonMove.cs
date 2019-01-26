@@ -21,17 +21,16 @@ public class PersonMove : MonoBehaviour
         ChanceToBecome = Random.Range(Min, 10);
     }
 
-    void Update()
+    void OnTriggerEnter(Collider collision)
     {
-        this.transform.position = Vector3.MoveTowards(this.transform.position, EndPos.position, Time.deltaTime * speed);
-
-        if (this.transform.position == EndPos.position)
+        if (collision.gameObject == FinishObject)
         {
             Destroy(this.gameObject);
         }
-        if (Input.GetMouseButtonDown(Min))
-        {
-            Debug.Log("++++");
-        }
+    }
+
+    void Update()
+    {
+        this.transform.position = Vector3.MoveTowards(this.transform.position, EndPos.position, Time.deltaTime * speed);
     }
 }

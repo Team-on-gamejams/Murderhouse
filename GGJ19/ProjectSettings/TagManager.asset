@@ -8,6 +8,8 @@ TagManager:
   - MyFinishObjct
   - Hom
   - Spawner
+  - FirstPosToHouse
+  - SecodPosToHouse
   layers:
   - Default
   - TransparentFX
