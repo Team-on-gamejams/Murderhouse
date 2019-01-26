@@ -11,7 +11,7 @@
 		<answer min="0" max="0">0</answer>
 		<answer min="1" max="50">1 50</answer>
 		<answer min="51" max="100">51 100</answer>
-		<answer min="-100" max="00">-100 100</answer>
+		<answer min="-100" max="100">-100 100</answer>
 	</rep>
 
 	<rep>
@@ -26,6 +26,6 @@
 		<answer min="0" max="0">0</answer>
 		<answer min="1" max="50">1 50</answer>
 		<answer min="51" max="100">51 100</answer>
-		<answer min="-100" max="00">-100 100</answer>
+		<answer min="-100" max="100">-100 100</answer>
 	</rep>
 </dialogs>
