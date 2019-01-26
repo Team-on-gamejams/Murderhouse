@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 1195121312}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Hom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -279,7 +279,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1561894025}
   m_LocalRotation: {x: -0.003973733, y: 0.9923049, z: -0.11712348, w: 0.039966166}
-  m_LocalPosition: {x: 262.0415, y: 139, z: 166.14154}
+  m_LocalPosition: {x: 262.0415, y: 276, z: 383}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
