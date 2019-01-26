@@ -2,26 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanSpawner : MonoBehaviour
-{
+public class HumanSpawner : MonoBehaviour {
+	public GameObject ToSpawn;
+	public GameObject SpawnPlace;
+	public GameObject FinishPlace;
+	public GameObject InvitePlace;
+	public float interval = 10;
+	public float time;
 
-    public GameObject ToSpawn;
-    public Transform SpawnPlace;
-    public float interval = 10;
-    public float time;
+	void Update() {
+		time += Time.deltaTime;
+		if (time >= interval) {
+			GameObject gm = Instantiate(ToSpawn, SpawnPlace.transform.position, Quaternion.identity);
+			SimpleAgentScript agent = gm.GetComponent<SimpleAgentScript>();
+			agent.finistTarget = FinishPlace;
+			agent.inviteTarget = InvitePlace;
 
-    void Start()
-    {
-       // ToSpawn = GameObject.FindGameObjectWithTag("Player");
-    }
+			agent.MoveToFinish();
 
-    void Update()
-    {
-        time += Time.deltaTime;
-        if(time >= interval)
-        {
-            Instantiate(ToSpawn, SpawnPlace.position, Quaternion.identity);
-            time = 0;
-        }
-    }
+			time = 0;
+		}
+	}
 }

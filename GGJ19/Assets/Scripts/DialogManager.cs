@@ -198,7 +198,6 @@ public class DialogManager : MonoBehaviour {
 		xmldoc.LoadXml(textAsset.text);
 
 		foreach (XmlNode i in xmldoc.ChildNodes[0].ChildNodes) {
-			print(i.Name);
 			if (i.Name == "regular") {
 				tiredMessages.regularMessages.Add(i.InnerText);
 			}
@@ -210,7 +209,6 @@ public class DialogManager : MonoBehaviour {
 					DialogAnswer da = new DialogAnswer();
 					da.answer = spec.InnerText;
 					foreach (XmlAttribute attr in spec.Attributes) {
-						print(attr.Name);
 						if (attr.Name == "min")
 							da.minRange = sbyte.Parse(attr.Value);
 						else if (attr.Name == "max")
