@@ -21,7 +21,7 @@ public class DialogInitializer : MonoBehaviour {
 
 	void OnMouseDown()
     {
-        AudioSource.PlayClipAtPoint(clip, this.gameObject.transform.position);
+        //AudioSource.PlayClipAtPoint(clip, this.gameObject.transform.position);
 		StartDialog();
 	}
 

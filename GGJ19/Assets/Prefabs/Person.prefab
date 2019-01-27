@@ -260,6 +260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8677519243fddf34d921c1b4844be482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Stats: 
+  Tired: 0
 --- !u!114 &4705068318707082669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,7 +343,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.80822754
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -424,6 +426,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4705068318707082665}
     m_Modifications:
+    - target: {fileID: 100052, guid: f06144f1d6675674b9f74cccb6595afd, type: 3}
+      propertyPath: m_Name
+      value: Walking
+      objectReference: {fileID: 0}
     - target: {fileID: 400052, guid: f06144f1d6675674b9f74cccb6595afd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -479,10 +485,6 @@ PrefabInstance:
     - target: {fileID: 400052, guid: f06144f1d6675674b9f74cccb6595afd, type: 3}
       propertyPath: m_LocalScale.z
       value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 100052, guid: f06144f1d6675674b9f74cccb6595afd, type: 3}
-      propertyPath: m_Name
-      value: Walking
       objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: f06144f1d6675674b9f74cccb6595afd, type: 3}
       propertyPath: m_Controller
