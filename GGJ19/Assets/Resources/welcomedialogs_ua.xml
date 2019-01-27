@@ -1,22 +1,4 @@
 <dialogs>
 	<regular>Welcome!</regular>
 	<regular>Hi!</regular>
-
-	<cat>
-		<spec min="-100" max="-50">WELCOME! cat -100 100</spec>
-		<spec min="-49" max="-1">WELCOME! cat -49 -1</spec>
-		<spec min="0" max="0">WELCOME! cat 0</spec>
-		<spec min="1" max="50">WELCOME! cat 1 50</spec>
-		<spec min="51" max="100">WELCOME! cat 51 100</spec>
-		<spec min="-100" max="100">WELCOME! cat -100 100</spec>
-	</cat>
-
-	<dog>
-		<spec min="-100" max="-50">WELCOME! dog -100 100</spec>
-		<spec min="-49" max="-1">WELCOME! dog -49 -1</spec>
-		<spec min="0" max="0">WELCOME! dog 0</spec>
-		<spec min="1" max="50">WELCOME! dog 1 50</spec>
-		<spec min="51" max="100">WELCOME! dog 51 100</spec>
-		<spec min="-100" max="100">WELCOME! dog -100 100</spec>
-	</dog>
 </dialogs>
