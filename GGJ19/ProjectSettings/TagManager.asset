@@ -14,6 +14,7 @@ TagManager:
   - furniture
   - matrix
   - MoneyController
+  - FurnitureController
   layers:
   - Default
   - TransparentFX

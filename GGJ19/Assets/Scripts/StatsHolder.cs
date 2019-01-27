@@ -69,13 +69,13 @@ public class StatsHolder : MonoBehaviour {
 		return rez;
 	}
 
-	bool IsHomeSatisfying(sbyte[] stats) {
+	public bool IsHomeSatisfying(sbyte[] statsHome) {
 		int satisfy = 0;
 
 		for (int i = 0; i < (int)Stat.LAST_STAT; ++i) {
-			if (Stats[i] > 0 && Stats[i] <= stats[i]) 
+			if (Stats[i] > 0 && statsHome[i] >= Stats[i]) 
 				++satisfy;
-			else if (Stats[i] < 0 && Stats[i] >= stats[i]) 
+			else if (Stats[i] < 0 && statsHome[i] >= -Stats[i]) 
 				--satisfy;
 		}
 

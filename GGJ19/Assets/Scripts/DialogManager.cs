@@ -90,11 +90,13 @@ public class DialogManager : MonoBehaviour {
 	AlphaCanvasControll dialogWindowAlpha;
 	public Text answerText;
 	public Text statInfoText;
+	public Text stathomeInfoText;
 	public Button[] questionsButton;
 	public Button inviteButton;
 	public Button exitButton;
 
 	MoneyController money;
+	FurnitureController furnitureController;
 
 	//Перший заведений діалог це завжди обучалка.
 	bool isFirstDialog;
@@ -113,6 +115,7 @@ public class DialogManager : MonoBehaviour {
 
 	void Start() {
 		money = GameObject.FindGameObjectWithTag("MoneyController").GetComponent<MoneyController>();
+		furnitureController = GameObject.FindGameObjectWithTag("FurnitureController").GetComponent<FurnitureController>();
 		dialogWindowAlpha = dialogWindow.GetComponent<AlphaCanvasControll>();
 		dialogAwaliable = false;
 		isFirstDialog = true;
@@ -124,7 +127,7 @@ public class DialogManager : MonoBehaviour {
 
 		inviteButton.onClick.AddListener(() => {
 			//TODO: Перевірити чи хоче він зайти
-			if (currentStats.IsHomeSatisfying()) {
+			if (currentStats.IsHomeSatisfying(furnitureController.statsBonus)) {
 				EndDialog();
 				currentDI.InviteToHome();
 				money.IncomeFromKill();
@@ -291,7 +294,7 @@ public class DialogManager : MonoBehaviour {
 		currentStats = person.GetComponent<StatsHolder>();
 		currentDI = person.GetComponent<DialogInitializer>();
 
-		statInfoText.text = currentStats.ToString() + '\n';
+		OutputDebugInfo();
 
 		if (!isFirstDialog) {
 			answerText.text = welcomeMessages.GetMessage(currentStats) + '\n';
@@ -320,7 +323,7 @@ public class DialogManager : MonoBehaviour {
 			FillFirstDialog();
 		}
 
-		statInfoText.text = currentStats.ToString() + '\n';
+		OutputDebugInfo();
 	}
 
 	void EndDialog() {
@@ -354,6 +357,8 @@ public class DialogManager : MonoBehaviour {
 				foreach (var bq in questionsButton)
 					bq.GetComponentInChildren<Text>().text = "Ок.";
 				currentStats.Stats[0] = 100;
+				for (int i = 0; i < (int)StatsHolder.Stat.LAST_STAT; i += 2)
+					currentStats.Stats[0] = 0;
 				break;
 			case 1:
 				answerText.text = "[Розказує що тобі треба робити].";
@@ -372,5 +377,16 @@ public class DialogManager : MonoBehaviour {
 				break;
 		}
 		++firstDialogStage;
+	}
+
+	void OutputDebugInfo() {
+		statInfoText.text = currentStats.ToString() + '\n';
+
+		string rez = "";
+
+		for (int i = 0; i < (int)StatsHolder.Stat.LAST_STAT; ++i)
+			rez += ((StatsHolder.Stat)(i)).ToString() + ": " + furnitureController.statsBonus[i] + "\n";
+
+		stathomeInfoText.text = rez;
 	}
 }
