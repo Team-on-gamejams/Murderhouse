@@ -2856,30 +2856,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 442936061, guid: df84f3831be9b7c47a9f7ea16e3482f3, type: 3}
-      propertyPath: statsBonus.Array.data[1]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 442936061, guid: df84f3831be9b7c47a9f7ea16e3482f3, type: 3}
-      propertyPath: statsBonus.Array.data[3]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 442936061, guid: df84f3831be9b7c47a9f7ea16e3482f3, type: 3}
-      propertyPath: statsBonus.Array.data[5]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 442936061, guid: df84f3831be9b7c47a9f7ea16e3482f3, type: 3}
-      propertyPath: statsBonus.Array.data[7]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 442936061, guid: df84f3831be9b7c47a9f7ea16e3482f3, type: 3}
-      propertyPath: statsBonus.Array.data[6]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 442936061, guid: df84f3831be9b7c47a9f7ea16e3482f3, type: 3}
-      propertyPath: statsBonus.Array.data[4]
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df84f3831be9b7c47a9f7ea16e3482f3, type: 3}
 --- !u!1001 &458903880

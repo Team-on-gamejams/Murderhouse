@@ -35,9 +35,9 @@ public class StatsHolder : MonoBehaviour {
 		LAST_STAT
 	}
 
-	public sbyte[] Stats { get; private set; }
+	public sbyte[] Stats;
 
-	public sbyte Tired { get; private set; }
+	public sbyte Tired;
 	const sbyte initTired = 5;
 
 	void Start() {
@@ -49,6 +49,13 @@ public class StatsHolder : MonoBehaviour {
 			Stats[i] = r;
 			Stats[i + 1] = (sbyte)-r;
 		}
+		
+	}
+
+	public void FillForTutorial(){
+		Stats[0] = 100;
+		for (int i = 1; i < (int)StatsHolder.Stat.LAST_STAT; ++i)
+			Stats[i] = 0;
 	}
 
 	public void GiveAnswer() {

@@ -119,18 +119,21 @@ public class DialogManager : MonoBehaviour {
 		dialogWindowAlpha = dialogWindow.GetComponent<AlphaCanvasControll>();
 		dialogAwaliable = false;
 		isFirstDialog = true;
-		firstDialogStage = 1;
+		firstDialogStage = 0;
 
 		choosed = new int[questionsButton.Length][];
 		for (int i = 0; i < questionsButton.Length; ++i)
 			choosed[i] = new int[2];
 
 		inviteButton.onClick.AddListener(() => {
-			//TODO: Перевірити чи хоче він зайти
+			EndDialog();
 			if (currentStats.IsHomeSatisfying(furnitureController.statsBonus)) {
-				EndDialog();
 				currentDI.InviteToHome();
 				money.IncomeFromKill();
+			}
+			else{
+				//Вивести чому він не хоче зайти
+				answerText.text = "No I do not want.";
 			}
 		});
 
@@ -331,10 +334,6 @@ public class DialogManager : MonoBehaviour {
 		dialogAwaliable = false;
 		isFirstDialog = false;
 		currentDI.EndDialog();
-
-		answerText.text = "dialog ended";
-		for (int i = 0; i < questionsButton.Length; ++i)
-			questionsButton[i].GetComponentInChildren<Text>().text = "Exit";
 	}
 
 	void FillQuestions() {
@@ -353,12 +352,10 @@ public class DialogManager : MonoBehaviour {
 	void FillFirstDialog() {
 		switch (firstDialogStage) {
 			case 0:
+				currentStats.FillForTutorial();
 				answerText.text = "Welcome! [Розказує хто ти].";
 				foreach (var bq in questionsButton)
 					bq.GetComponentInChildren<Text>().text = "Ок.";
-				currentStats.Stats[0] = 100;
-				for (int i = 0; i < (int)StatsHolder.Stat.LAST_STAT; i += 2)
-					currentStats.Stats[0] = 0;
 				break;
 			case 1:
 				answerText.text = "[Розказує що тобі треба робити].";
