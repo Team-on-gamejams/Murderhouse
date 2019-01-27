@@ -8,23 +8,21 @@ public class StatsHolder : MonoBehaviour {
 		Cat,
 		Dog,
 
-		Code,
-		Design,
-
 		Nature,
-		Technics,
-
-		PhysicalWork,
-		MentalWork,
-
-		Windows,
-		Mac,
-
-		Sprot,
-		Alcohol,
+		Tech,
 
 		Order,
-		Chaos,
+		Mess,
+
+		FuturisticInteriorDesign,
+		ClassicInteriorDesign,
+
+
+		//PhysicalWork,
+		//MentalWork,
+
+		//Sport,
+		//Alcohol,
 
 		//Anime,
 		//Serials,

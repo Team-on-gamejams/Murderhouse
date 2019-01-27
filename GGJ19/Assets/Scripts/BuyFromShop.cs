@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuyFromShop : MonoBehaviour
-{
+public class BuyFromShop : MonoBehaviour {
 	public FurnitureController fr;
 	public GameObject gameObjectPrefab;
 
-    public void BuyObject ()
-	{
+	public Transform spawnPos;
+	public int scale = 1;
+
+	public void BuyObject() {
 		if (!fr.IsAll()) {
-			Instantiate(gameObjectPrefab, new Vector3(1f, 2f, 1f), new Quaternion(0f, 0f, 0f, 0f));
+			Instantiate(gameObjectPrefab, spawnPos.position, spawnPos.rotation).transform.localScale = new Vector3(scale, scale, scale);
 			fr.AddFurniture(gameObjectPrefab);
 		}
 	}
