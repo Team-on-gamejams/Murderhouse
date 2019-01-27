@@ -13,54 +13,40 @@
 		<answer min="-49" max="-1">Not really.</answer>
 		<answer min="-49" max="-1">No?</answer>
 		<answer min="-49" max="-1">*shakes head*.</answer>
-		<answer min="-49" max="-1">More no than yes.</answer>
 
 		<answer min="0" max="0">Dont care.</answer>
 		<answer min="0" max="0">No difference.</answer>
 		<answer min="0" max="0">Whatever.</answer>
 		<answer min="0" max="0">Dont know.</answer>
-		<answer min="0" max="0">Мені все равно</answer>
+		<answer min="0" max="0">Dont care.</answer>
 
 		<answer min="1" max="25">I think...?</answer>
 		<answer min="1" max="25">Maybe?</answer>
 		<answer min="1" max="25">Probably?</answer>
 		<answer min="1" max="25">Yes...?</answer>
-		<answer min="1" max="25">More yes than no.</answer>
 
 		<answer min="26" max="50">Yeah.</answer>
 		<answer min="26" max="50">Yes.</answer>
 		<answer min="26" max="50">Sure.</answer>
 		<answer min="26" max="50">Yep.</answer>
 		<answer min="26" max="50">nods</answer>
-		<answer min="26" max="50">Deffinitly yes!</answer>
 
 		<answer min="51" max="100">Of cource!</answer>
 		<answer min="51" max="100">Never doubt it.</answer>
 		<answer min="51" max="100">Yeah!</answer>
 		<answer min="51" max="100">Strong yes.</answer>
 		<answer min="51" max="100">Of cource!</answer>
-
-		<answer min="-100" max="100">Зачем ти це питаєш?</answer>
 	</rep>
 
 	<rep>
 		<stat>Cat</stat>
-		<question>Тобі подобаютсья котики?</question>
-		<question>Що ти думаєш про котодевочок?</question>
-		<question>Cats or Dogs?</question>
 		<question>Do you like cats?</question>
 		<question>You look like a person that likes rubbing pussies!</question>
 		<question>Cats are the best, right?</question>
-
-		<answer min="-100" max="-50">Повна херня</answer>
-		<answer min="-49" max="-1">Не настільки добре, як собачки</answer>
-		<answer min="1" max="50">Могло бути і гірше</answer>
-		<answer min="51" max="100">Идеально же!</answer>
 	</rep>
 
 	<rep>
 		<stat>Dog</stat>
-		<question>Cats or dogs?</question>
 		<question>Do you like dogs?</question>
 		<question>Are dogs better than cats?</question>
 		<question>Dogs are MUCH better then cats.</question>
@@ -75,7 +61,7 @@
 	</rep>
 
 	<rep>
-		<stat>Technics</stat>
+		<stat>Tech</stat>
 		<question>Do you like technology?</question>
 		<question>The more technology in the house, the better</question>
 		<question>Technology is more important than nature, right?</question>
@@ -91,9 +77,26 @@
 	</rep>
 
 	<rep>
-		<stat>Chaos</stat>
-		<question>Do you leaeve your things whereever?</question>
+		<stat>Mess</stat>
+		<question>Do you leaeve your things wherever?</question>
+		<question>Do you mind messy room?</question>
+		<question>Do you leaeve your things wherever?</question>
 		<question>Do you mind messy room?</question>
 	</rep>
 
+	<rep>
+		<stat>FuturisticInteriorDesign</stat>
+		<question>Do you like futuristic looking interior design? </question>
+		<question>Do you like modern looking houses?</question>
+		<question>Do you prefer your furniture made from glass and plastic? </question>
+		<question>Do you like science fiction house interior?</question>
+	</rep>
+
+	<rep>
+		<stat>ClassicInteriorDesign</stat>
+		<question>Do you like antique interior design? </question>
+		<question>Do you like old looking houses?</question>
+		<question>Do you prefer your furniture made from wood? </question>
+		<question>Do you like wooden house interior?</question>
+	</rep>
 </dialogs>
