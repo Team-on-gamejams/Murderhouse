@@ -353,24 +353,24 @@ public class DialogManager : MonoBehaviour {
 		switch (firstDialogStage) {
 			case 0:
 				currentStats.FillForTutorial();
-				answerText.text = "Welcome! [Розказує хто ти].";
+				answerText.text = "Welcome!. You are a home and you need to lure humans inside.";
 				foreach (var bq in questionsButton)
-					bq.GetComponentInChildren<Text>().text = "Ок.";
+					bq.GetComponentInChildren<Text>().text = "Ok.";
 				break;
+			//case 1:
+			//	answerText.text = "[Розказує що тобі треба робити].";
+			//	foreach (var bq in questionsButton)
+			//		bq.GetComponentInChildren<Text>().text = "Ок.";
+			//	break;
 			case 1:
-				answerText.text = "[Розказує що тобі треба робити].";
+				answerText.text = "Buy smth for cats, becouse I love them.";
 				foreach (var bq in questionsButton)
-					bq.GetComponentInChildren<Text>().text = "Ок.";
-				break;
-			case 2:
-				answerText.text = "[Пропонує поставити тобі щось для " + ((StatsHolder.Stat)(0)).ToString() + "].";
-				foreach (var bq in questionsButton)
-					bq.GetComponentInChildren<Text>().text = "Ок. Я поставив";
+					bq.GetComponentInChildren<Text>().text = "Ok.";
 				break;
 			default:
-				answerText.text = "[Пропонує запросити його].";
+				answerText.text = "Now click on invite.";
 				foreach (var bq in questionsButton)
-					bq.GetComponentInChildren<Text>().text = "Це не запросити.";
+					bq.GetComponentInChildren<Text>().text = "Its not invite.";
 				break;
 		}
 		++firstDialogStage;
