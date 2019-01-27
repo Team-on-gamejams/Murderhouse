@@ -2,17 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FurnitureBonus : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+public class FurnitureBonus : MonoBehaviour {
+	public sbyte[] statsBonus = new sbyte[(int)StatsHolder.Stat.LAST_STAT];
+	public int price;
 }

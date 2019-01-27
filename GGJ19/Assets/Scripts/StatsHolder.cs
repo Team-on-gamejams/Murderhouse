@@ -50,8 +50,6 @@ public class StatsHolder : MonoBehaviour {
 			Stats[i] = r;
 			Stats[i + 1] = (sbyte)-r;
 		}
-
-		Stats[(int)Stat.Cat] = 0;
 	}
 
 	public void GiveAnswer(){

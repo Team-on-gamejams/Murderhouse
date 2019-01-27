@@ -9,10 +9,26 @@ public class BuyFromShop : MonoBehaviour {
 	public Transform spawnPos;
 	public int scale = 1;
 
+	MoneyController money;
+
+	void Start() {
+		money = GameObject.FindGameObjectWithTag("MoneyController").GetComponent<MoneyController>();
+	}
+
 	public void BuyObject() {
 		if (!fr.IsAll()) {
-			Instantiate(gameObjectPrefab, spawnPos.position, spawnPos.rotation).transform.localScale = new Vector3(scale, scale, scale);
-			fr.AddFurniture(gameObjectPrefab);
+			GameObject go = Instantiate(gameObjectPrefab, spawnPos.position, spawnPos.rotation);
+			go.transform.localScale = new Vector3(scale, scale, scale);
+			FurnitureBonus fb = go.GetComponent<FurnitureBonus>();
+
+			if (money.CanBuy(fb.price)) {
+				fr.AddFurniture(go);
+				money.Withdraw(fb.price);
+			}
+			else {
+				//TODO: Вивести щось про нестачу грошей
+				Destroy(go);
+			}
 		}
 	}
 }
