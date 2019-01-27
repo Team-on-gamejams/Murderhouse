@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class DialogInitializer : MonoBehaviour {
 	static bool inDialog = false;
-
+    [SerializeField] AudioClip Clip;
 	public List<UnityEvent> dialogStart = new List<UnityEvent>();
 	public List<UnityEvent> dialogEnd = new List<UnityEvent>();
 	public List<UnityEvent> inviteHome = new List<UnityEvent>();
@@ -18,7 +18,8 @@ public class DialogInitializer : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		StartDialog();
+        AudioSource.PlayClipAtPoint(Clip, this.gameObject.transform.position);
+        StartDialog();
 	}
 
 	public void StartDialog(){
