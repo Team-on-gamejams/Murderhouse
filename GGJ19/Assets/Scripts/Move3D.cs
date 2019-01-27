@@ -9,6 +9,8 @@ public class Move3D : MonoBehaviour
 	public GameObject gm; // Our grab GameObject
 	public bool pressed = false; // Left press mouse click indicator
 
+	public FurnitureController fr;
+
 	void Start() {
 		_camera = GetComponent<Camera>(); // Get the component Camera from objects
 	}
@@ -34,9 +36,17 @@ public class Move3D : MonoBehaviour
 			} else {
 				if (gm != null)
 				{
+					if (!hit.collider.CompareTag("furniture") && !hit.collider.CompareTag("matrix") && pressed && gm != null) 
+					{ 
+						fr.RemoveFurniture(gm.GetComponent<PrefabStats>().furnitureName);
+						gm = null;
+					}
+					else {
+						pressed = false;
+						gm.layer = 0; // make grab objects raycast AGAIN!
+						gm = null; // clear gm
+					}
 					pressed = false;
-					gm.layer = 0; // make grab objects raycast AGAIN!
-					gm = null; // clear gm
 				}
 			} 
 
