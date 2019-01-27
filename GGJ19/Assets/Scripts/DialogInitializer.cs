@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class DialogInitializer : MonoBehaviour {
 	static bool inDialog = false;
 
+    public AudioClip clip;
 	public List<UnityEvent> dialogStart = new List<UnityEvent>();
 	public List<UnityEvent> dialogEnd = new List<UnityEvent>();
 	public List<UnityEvent> inviteHome = new List<UnityEvent>();
@@ -13,11 +14,14 @@ public class DialogInitializer : MonoBehaviour {
 	bool wasInDIalog;
 	bool wasInvited;
 
-	void Start() {
+	void Start()
+    {
 		wasInvited = wasInDIalog = false;
 	}
 
-	void OnMouseDown() {
+	void OnMouseDown()
+    {
+        AudioSource.PlayClipAtPoint(clip, this.gameObject.transform.position);
 		StartDialog();
 	}
 
