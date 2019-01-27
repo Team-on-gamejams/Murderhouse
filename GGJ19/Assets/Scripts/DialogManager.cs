@@ -94,6 +94,8 @@ public class DialogManager : MonoBehaviour {
 	public Button inviteButton;
 	public Button exitButton;
 
+	MoneyController money;
+
 	//Перший заведений діалог це завжди обучалка.
 	bool isFirstDialog;
 	int firstDialogStage;
@@ -110,6 +112,7 @@ public class DialogManager : MonoBehaviour {
 	bool dialogAwaliable;
 
 	void Start() {
+		money = GameObject.FindGameObjectWithTag("MoneyController").GetComponent<MoneyController>();
 		dialogWindowAlpha = dialogWindow.GetComponent<AlphaCanvasControll>();
 		dialogAwaliable = false;
 		isFirstDialog = true;
@@ -121,8 +124,11 @@ public class DialogManager : MonoBehaviour {
 
 		inviteButton.onClick.AddListener(() => {
 			//TODO: Перевірити чи хоче він зайти
-			EndDialog();
-			currentDI.InviteToHome();
+			if (currentStats.IsHomeSatisfying()) {
+				EndDialog();
+				currentDI.InviteToHome();
+				money.IncomeFromKill();
+			}
 		});
 
 		exitButton.onClick.AddListener(() => {
@@ -310,7 +316,7 @@ public class DialogManager : MonoBehaviour {
 			else
 				EndDialog();
 		}
-		else{
+		else {
 			FillFirstDialog();
 		}
 
@@ -342,7 +348,7 @@ public class DialogManager : MonoBehaviour {
 	}
 
 	void FillFirstDialog() {
-		switch(firstDialogStage){
+		switch (firstDialogStage) {
 			case 0:
 				answerText.text = "Welcome! [Розказує хто ти].";
 				foreach (var bq in questionsButton)

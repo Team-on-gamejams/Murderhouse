@@ -17,7 +17,6 @@ public class StatsHolder : MonoBehaviour {
 		FuturisticInteriorDesign,
 		ClassicInteriorDesign,
 
-
 		//PhysicalWork,
 		//MentalWork,
 
@@ -52,7 +51,7 @@ public class StatsHolder : MonoBehaviour {
 		}
 	}
 
-	public void GiveAnswer(){
+	public void GiveAnswer() {
 		--Tired;
 	}
 
@@ -68,5 +67,18 @@ public class StatsHolder : MonoBehaviour {
 		rez += "Tired: " + Tired.ToString();
 
 		return rez;
+	}
+
+	bool IsHomeSatisfying(sbyte[] stats) {
+		int satisfy = 0;
+
+		for (int i = 0; i < (int)Stat.LAST_STAT; ++i) {
+			if (Stats[i] > 0 && Stats[i] <= stats[i]) 
+				++satisfy;
+			else if (Stats[i] < 0 && Stats[i] >= stats[i]) 
+				--satisfy;
+		}
+
+		return satisfy > 0;
 	}
 }

@@ -13,6 +13,10 @@ public class MoneyController : MonoBehaviour {
 		money -= price;
 	}
 
+	public void IncomeFromKill() {
+		money += 10;
+	}
+
 	public void Deposit(int price) {
 		money += price;
 	}
