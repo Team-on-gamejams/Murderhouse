@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c5d082242ccbb34cb0332cbbec0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsBonus: 00000000ce320000
-  price: 14
+  statsBonus: 00000000e7190000
+  price: 5
 --- !u!1001 &7476569874524896216
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 417411412407261042}
   - component: {fileID: 16023006185812379}
   m_Layer: 0
-  m_Name: Carrot
+  m_Name: Cat1
   m_TagString: furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c5d082242ccbb34cb0332cbbec0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsBonus: 32ce000000000000
+  statsBonus: 19e7000000000000
   price: 5
 --- !u!1 &8131910746787180874
 GameObject:

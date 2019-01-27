@@ -53,7 +53,7 @@ public class StatsHolder : MonoBehaviour {
 	}
 
 	public void FillForTutorial(){
-		Stats[0] = 100;
+		Stats[0] = 15;
 		for (int i = 1; i < (int)StatsHolder.Stat.LAST_STAT; ++i)
 			Stats[i] = 0;
 	}
