@@ -36,9 +36,9 @@ public class Move3D : MonoBehaviour
 			} else {
 				if (gm != null)
 				{
-					if (!hit.collider.CompareTag("furniture") && !hit.collider.CompareTag("matrix") && pressed && gm != null) 
+					if (!hit.collider.CompareTag("furniture") && !hit.collider.CompareTag("matrix") && !hit.collider.CompareTag("floor") && pressed && gm != null) 
 					{ 
-						fr.RemoveFurniture(gm.GetComponent<PrefabStats>().furnitureName);
+						fr.RemoveFurniture(gm);
 						gm = null;
 					}
 					else {

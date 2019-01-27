@@ -40,17 +40,19 @@ public class FurnitureController : MonoBehaviour {
 			statsBonus[i] -= bonus.statsBonus[i];
 	}
 
-	public void RemoveFurniture(string name)
+	public void RemoveFurniture(GameObject gm)
 	{
 		int count = 0;
 		foreach(GameObject i in furnitureArr)
 		{
 			count++;
-			if (i.GetComponent<PrefabStats>().furnitureName == name) {
-				RemoveStatBonus(i.GetComponent<FurnitureBonus>());
-				furnitureArr.RemoveAt(count-1);
-				Destroy(i);
-				return;
+			if (i != null) {
+				if (i == gm ) {
+					RemoveStatBonus(i.GetComponent<FurnitureBonus>());
+					furnitureArr.RemoveAt(count-1);
+					Destroy(i);
+					return;
+				}
 			}
 		}
 	}
