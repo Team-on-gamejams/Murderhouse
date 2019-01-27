@@ -1,0 +1,102 @@
+<dialogs>
+	<rep>
+		<stat>None</stat>
+
+		<answer min="-100" max="-50">Hell no!</answer>
+		<answer min="-100" max="-50">Of course no!</answer>
+		<answer min="-100" max="-50">No!</answer>
+		<answer min="-100" max="-50">Big NO.</answer>
+		<answer min="-100" max="-50">No, no, no and no.</answer>
+
+		<answer min="-49" max="-1">Nah.</answer>
+		<answer min="-49" max="-1">Nope.</answer>
+		<answer min="-49" max="-1">Not really.</answer>
+		<answer min="-49" max="-1">No?</answer>
+		<answer min="-49" max="-1">*shakes head*.</answer>
+
+		<answer min="0" max="0">Dont care.</answer>
+		<answer min="0" max="0">No difference.</answer>
+		<answer min="0" max="0">Whatever.</answer>
+		<answer min="0" max="0">Dont know.</answer>
+		<answer min="0" max="0">Dont care.</answer>
+
+		<answer min="1" max="25">I think...?</answer>
+		<answer min="1" max="25">Maybe?</answer>
+		<answer min="1" max="25">Probably?</answer>
+		<answer min="1" max="25">Yes...?</answer>
+
+		<answer min="26" max="50">Yeah.</answer>
+		<answer min="26" max="50">Yes.</answer>
+		<answer min="26" max="50">Sure.</answer>
+		<answer min="26" max="50">Yep.</answer>
+		<answer min="26" max="50">nods</answer>
+
+		<answer min="51" max="100">Of cource!</answer>
+		<answer min="51" max="100">Never doubt it.</answer>
+		<answer min="51" max="100">Yeah!</answer>
+		<answer min="51" max="100">Strong yes.</answer>
+		<answer min="51" max="100">Of cource!</answer>
+	</rep>
+
+	<rep>
+		<stat>Cat</stat>
+		<question>Do you like cats?</question>
+		<question>You look like a person that likes rubbing pussies!</question>
+		<question>Cats are the best, right?</question>
+	</rep>
+
+	<rep>
+		<stat>Dog</stat>
+		<question>Do you like dogs?</question>
+		<question>Are dogs better than cats?</question>
+		<question>Dogs are MUCH better then cats.</question>
+	</rep>
+
+	<rep>
+		<stat>Nature</stat>
+		<question>Do you like nature?</question>
+		<question>Helping nature is very important, right?</question>
+		<question>Do you have some plants at home?</question>
+		<question>Does nature is more important than technological progress?</question>
+	</rep>
+
+	<rep>
+		<stat>Tech</stat>
+		<question>Do you like technology?</question>
+		<question>The more technology in the house, the better</question>
+		<question>Technology is more important than nature, right?</question>
+		<question>Would you like to see some brand new tech?</question>
+	</rep>
+
+	<rep>
+		<stat>Order</stat>
+		<question>Do like when everthing in order?</question>
+		<question>Do you like feng shui?</question>
+		<question>Does everything must be in its place?</question>
+		<question>Do you like tidy houses?</question>
+	</rep>
+
+	<rep>
+		<stat>Mess</stat>
+		<question>Do you leaeve your things wherever?</question>
+		<question>Do you mind messy room?</question>
+		<question>Do you leaeve your things wherever?</question>
+		<question>Do you mind messy room?</question>
+	</rep>
+
+	<rep>
+		<stat>FuturisticInteriorDesign</stat>
+		<question>Do you like futuristic looking interior design? </question>
+		<question>Do you like modern looking houses?</question>
+		<question>Do you prefer your furniture made from glass and plastic? </question>
+		<question>Do you like science fiction house interior?</question>
+	</rep>
+
+	<rep>
+		<stat>ClassicInteriorDesign</stat>
+		<question>Do you like antique interior design? </question>
+		<question>Do you like old looking houses?</question>
+		<question>Do you prefer your furniture made from wood? </question>
+		<question>Do you like wooden house interior?</question>
+	</rep>
+</dialogs>
