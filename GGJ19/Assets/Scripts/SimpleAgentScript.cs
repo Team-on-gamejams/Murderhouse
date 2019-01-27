@@ -20,6 +20,11 @@ public class SimpleAgentScript : MonoBehaviour {
 		if (currentTarget != null) {
 			anim.SetBool("IsWalking", true);
 			agent.SetDestination(currentTarget.transform.position);
+
+			//КОСТИЛЬ:
+			print((currentTarget.transform.position - transform.position).magnitude);
+			if ((currentTarget.transform.position - transform.position).magnitude <= 11)
+				Destroy(gameObject);
 		}
 		else
 			agent.SetDestination(transform.position);
